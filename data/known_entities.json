@@ -1,0 +1,117 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-01-01",
+  "entities": {
+    "exchanges": {
+      "binance": {
+        "name": "Binance",
+        "known_addresses": [
+          "1NDyJtNTjmwk5xPNhjgAMu4HDHigtobu1s",
+          "34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo",
+          "bc1qm34lsc65zpw79lxes69zkqmk6ee3ewf0j77s3",
+          "3JZq4atUahhuA9rLhXLMhhTo133J9rF97j",
+          "1P5ZEDWTKTFGxQjZphgWPQUpe554WKDfHQ"
+        ]
+      },
+      "coinbase": {
+        "name": "Coinbase",
+        "known_addresses": [
+          "1461dNnoDodFqmjMBBFiFJSzuBbPkt2biU",
+          "3Cbq7aT1tY8kMxWLbitaG7yT6bPbKChq64",
+          "3E1jJBqSFMbgQxhHNzULuy2oDkHGJMFHbG"
+        ]
+      },
+      "kraken": {
+        "name": "Kraken",
+        "known_addresses": [
+          "3AfP4gPdo1bZBaFKmmwrfjbBSfYMqnNoU8",
+          "3FHNBLobJnbCTFTVakh5TXmEneyf5PT61B"
+        ]
+      },
+      "bitfinex": {
+        "name": "Bitfinex",
+        "known_addresses": [
+          "3D2oetdNuZUqQHPJmcMDDHYoqkyNVsFk9r",
+          "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97"
+        ]
+      },
+      "bitstamp": {
+        "name": "Bitstamp",
+        "known_addresses": [
+          "3P3QsMVK89JBNqZQv5zMAKG8FK3kJM4rjt",
+          "3BitcoinEaterAddressDontSendf59kuE"
+        ]
+      },
+      "gemini": {
+        "name": "Gemini",
+        "known_addresses": [
+          "3MfN5TQWML4kDHPVNHDMcCPbEAQuXL21iS"
+        ]
+      },
+      "okx": {
+        "name": "OKX",
+        "known_addresses": [
+          "3LtzXnPZAqzXqonFBFnGrmGSn8HJ6V87n4"
+        ]
+      },
+      "huobi": {
+        "name": "Huobi",
+        "known_addresses": [
+          "1HckjUpRGcrrRAtFaaCAUaGjsPx9oYmLaZ"
+        ]
+      }
+    },
+    "mining_pools": {
+      "f2pool": {
+        "name": "F2Pool",
+        "known_addresses": [
+          "1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY"
+        ]
+      },
+      "antpool": {
+        "name": "AntPool",
+        "known_addresses": [
+          "12dRugNcdxK39288NjcDV4GX7rMsKCGn6B"
+        ]
+      },
+      "viabtc": {
+        "name": "ViaBTC",
+        "known_addresses": [
+          "1MvYASoHjqWniHpvCMMFrMbPUBumRWAEaF"
+        ]
+      },
+      "foundry": {
+        "name": "Foundry USA",
+        "known_addresses": []
+      },
+      "slush_pool": {
+        "name": "Braiins Pool (Slush)",
+        "known_addresses": []
+      }
+    },
+    "services": {
+      "wasabi_coordinator": {
+        "name": "Wasabi CoinJoin Coordinator",
+        "known_addresses": []
+      },
+      "samourai_whirlpool": {
+        "name": "Samourai Whirlpool",
+        "known_addresses": []
+      }
+    },
+    "notable": {
+      "satoshi": {
+        "name": "Satoshi Nakamoto (Genesis)",
+        "known_addresses": [
+          "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+        ]
+      },
+      "us_gov_silk_road": {
+        "name": "US Government (Silk Road seizure)",
+        "known_addresses": [
+          "bc1qa5wkgaew2dkv56kc6hp24cc2nkej29ch3dxt7e"
+        ]
+      }
+    }
+  }
+}

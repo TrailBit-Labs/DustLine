@@ -1,0 +1,4 @@
+[
+  {"spent": true, "txid": "next_tx_1", "vin": 0, "status": {"confirmed": true}},
+  {"spent": false}
+]
