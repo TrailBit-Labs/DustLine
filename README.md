@@ -22,11 +22,18 @@ DustLine makes this concrete.
 
 ```bash
 git clone https://github.com/TrailBit-Labs/DustLine
-cd dustline
+cd DustLine
 pip install -r requirements.txt
+
+# Build the attribution database (~483K labeled addresses)
+python data/build_db.py --download
 ```
 
-**Requirements:** Python 3.8+, internet access for blockchain and attribution APIs.
+The `--download` flag clones [GraphSense TagPacks](https://github.com/graphsense/graphsense-tagpacks) and [bitcoin-data/mining-pools](https://github.com/bitcoin-data/mining-pools) into a temp directory, builds the SQLite database, and cleans up. Takes 2–3 minutes. Requires `git` on PATH.
+
+DustLine works without the database (attribution rate will be 0%), but cost estimates will be significantly overstated.
+
+**Requirements:** Python 3.8+, git, internet access for blockchain and attribution APIs.
 
 ---
 

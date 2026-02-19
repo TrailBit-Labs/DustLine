@@ -14,3 +14,4 @@ env/
 .mypy_cache/
 *.log
 firebase-debug.log
+data/known_entities.db

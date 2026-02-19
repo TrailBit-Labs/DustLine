@@ -1,6 +1,7 @@
 """Build the known_entities.db SQLite database from source data.
 
 Usage:
+    python data/build_db.py --download               # Download datasets + build (recommended)
     python data/build_db.py                          # Build from known_entities.json only
     python data/build_db.py --verify                 # Build + verify all JSON addresses present
     python data/build_db.py --orbitaal FILE           # Also ingest ORBITAAL TSV
@@ -13,8 +14,11 @@ from __future__ import annotations
 
 import csv
 import json
+import shutil
 import sqlite3
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 DATA_DIR = Path(__file__).parent
@@ -288,6 +292,51 @@ def ingest_mining_pools(conn: sqlite3.Connection, pools_dir: Path) -> int:
     return count
 
 
+GRAPHSENSE_REPO = "https://github.com/graphsense/graphsense-tagpacks.git"
+MINING_POOLS_REPO = "https://github.com/bitcoin-data/mining-pools.git"
+
+
+def download_and_build(conn: sqlite3.Connection) -> None:
+    """Clone datasets into a temp directory, ingest, and clean up."""
+    tmp = Path(tempfile.mkdtemp(prefix="dustline_"))
+    try:
+        # Clone GraphSense TagPacks (shallow — only latest commit)
+        gs_dir = tmp / "graphsense-tagpacks"
+        print(f"Cloning GraphSense TagPacks (shallow)...")
+        subprocess.run(
+            ["git", "clone", "--depth", "1", GRAPHSENSE_REPO, str(gs_dir)],
+            check=True,
+            capture_output=True,
+        )
+        packs_dir = gs_dir / "packs"
+        if packs_dir.is_dir():
+            gs_count = ingest_graphsense(conn, packs_dir)
+            print(f"Ingested {gs_count} BTC addresses from GraphSense TagPacks")
+        else:
+            print(f"Warning: {packs_dir} not found in cloned repo")
+
+        # Clone mining pools (shallow)
+        mp_dir = tmp / "mining-pools"
+        print(f"Cloning mining-pools...")
+        subprocess.run(
+            ["git", "clone", "--depth", "1", MINING_POOLS_REPO, str(mp_dir)],
+            check=True,
+            capture_output=True,
+        )
+        pools_dir = mp_dir / "pools"
+        if pools_dir.is_dir():
+            mp_count = ingest_mining_pools(conn, pools_dir)
+            print(f"Ingested {mp_count} addresses from mining pools")
+        else:
+            print(f"Warning: {pools_dir} not found in cloned repo")
+
+    except subprocess.CalledProcessError as exc:
+        print(f"Error cloning repository: {exc.stderr.decode().strip()}")
+        sys.exit(1)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def verify_json_addresses(conn: sqlite3.Connection, json_path: Path) -> bool:
     """Verify all addresses from known_entities.json exist in the DB."""
     if not json_path.exists():
@@ -341,6 +390,10 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description="Build known_entities.db")
+    parser.add_argument(
+        "--download", action="store_true",
+        help="Download GraphSense + mining-pools datasets and build (recommended)",
+    )
     parser.add_argument("--verify", action="store_true", help="Verify JSON addresses")
     parser.add_argument("--orbitaal", type=Path, help="ORBITAAL TSV path")
     parser.add_argument("--tagpacks", type=Path, help="OXT TagPack CSV path")
@@ -362,7 +415,11 @@ def main() -> None:
     json_count = seed_from_json(conn, JSON_PATH)
     print(f"Seeded {json_count} addresses from known_entities.json")
 
-    # Optional: ingest external datasets
+    # --download: fetch both repos, ingest, clean up
+    if args.download:
+        download_and_build(conn)
+
+    # Optional: ingest from local paths
     if args.orbitaal:
         orb_count = ingest_orbitaal(conn, args.orbitaal)
         print(f"Ingested {orb_count} addresses from ORBITAAL")
